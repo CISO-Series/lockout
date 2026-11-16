@@ -1,13 +1,13 @@
 # Lockout
 
-A daily Wordle-style game for the Super Cyber Friday (SCF) live chat. Players crack a 5-letter cybersecurity "password" in 6 attempts before the account locks, then paste a spoiler-free score into the chat.
+A weekly Wordle-style game for the Super Cyber Friday (SCF) live chat. Players crack a 5-letter cybersecurity "password" in 6 attempts before the account locks, then paste a spoiler-free score into the chat.
 
 Live version: https://claude.ai/artifact/5cQK1fATHvjf3rgDP8G1Yi
 
 ## How it works
 
 - **One file.** Everything is in `index.html`: the game, the answer list and the spell-check dictionary. No build step or server; open it in a browser.
-- **Daily puzzle.** Puzzle #1 was 2026-11-16 (`START` in the script). Each day takes the next word from `ANSWERS`, then the list loops (120 words, about four months).
+- **Weekly puzzle.** The password rotates automatically at **12:00 AM Pacific every Friday**, the same moment for every player wherever they are. Puzzle #1 is Friday 2026-11-20 (`FIRST_WEEK`). Each week takes the next word from `ANSWERS`, then the list loops (120 words, a bit over two years). Before #1 the page serves a practice round. A page left open across the rotation switches itself to the new password within a minute.
 - **Spell check.** Guesses must be in `DICT`, about 14,200 five-letter words. Every answer is also always accepted.
 - **Custom puzzles.** "Set password" builds a link like `…#p-<hex>` that opens a puzzle with your own word and an optional hint. The word is hex-encoded, not secret.
 - **Sharing.** "Copy result for chat" copies the score in one of three styles (Lock & key, the default; Terminal; Classic), with an optional solve time. It never includes the answer.
@@ -17,8 +17,9 @@ Live version: https://claude.ai/artifact/5cQK1fATHvjf3rgDP8G1Yi
 
 | To change | Edit in `index.html` |
 |---|---|
-| Daily answers or their order | `ANSWERS` (5 uppercase letters each) |
-| Start date / puzzle numbering | `START` |
+| Weekly answers or their order | `ANSWERS` (5 uppercase letters each, one per week) |
+| Date of puzzle #1 | `FIRST_WEEK` |
+| Rotation day or time zone | `ROTATE_DAY` (0=Sun … 5=Fri), `ROTATE_TZ` and `ROTATE_TZ_LABEL` |
 | Rank titles | `RANKS` (index 0 = solved in 1 guess) |
 | Share emoji styles | `STYLES` |
 | Link included in the share | `BASE` |
