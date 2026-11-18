@@ -206,7 +206,7 @@ const MAXG = 6, LEN = 5;
 
 // ---- State ----
 const $ = id => document.getElementById(id);
-const BASE = "https://claude.ai/artifact/5cQK1fATHvjf3rgDP8G1Yi"; // set to the published page URL so share/make links are absolute
+const BASE = /\.github\.io$/.test(location.hostname) ? location.origin + location.pathname : "https://claude.ai/artifact/5cQK1fATHvjf3rgDP8G1Yi"; // on GitHub Pages share that page; elsewhere share the published artifact
 const hex = s => [...new TextEncoder().encode(s)].map(b=>b.toString(16).padStart(2,"0")).join("");
 const unhex = h => { try{ return new TextDecoder().decode(Uint8Array.from(h.match(/../g)||[],x=>parseInt(x,16))); }catch(e){ return ""; } };
 function hashPuzzle(){ // #p-<hexAnswer>[-<hexHint>]

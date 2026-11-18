@@ -15,3 +15,7 @@ All notable changes to the CISO Series Lockout repo are logged here.
 - Puzzle #1 is Friday 2026-11-20 (`FIRST_WEEK`). Before that the page serves a practice round, labeled "Practice" in the share.
 - The login banner shows the next rotation, e.g. `rotates: Fri, Nov 20, 12:00 AM PT (in 4 days)`. A page left open across the rotation reloads to the new password on its own.
 - Saved progress is now keyed by week (`w:<n>`), so earlier daily-test progress doesn't carry over. — Rich
+
+## 2026-11-18
+- Made the repo public and turned on GitHub Pages (`main`, root), so the game is playable at https://ciso-series.github.io/lockout/ for outside testing.
+- Share and custom-puzzle links now point at whichever page is being played: the GitHub Pages URL when played there, the claude.ai artifact everywhere else. — Rich
