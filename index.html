@@ -79,6 +79,11 @@
   #result.won h2{color:var(--correct)} #result.lost h2{color:var(--danger)}
   #result p{margin:0;color:var(--muted);font-size:13px}
   #result p b{color:var(--text)}
+  #cta{display:block;width:100%;box-sizing:border-box;border:1px dashed var(--prompt);border-radius:6px;padding:10px 12px;margin-top:4px;
+    color:var(--muted);font-size:13px;line-height:1.5;text-decoration:none;text-align:left}
+  #cta::before{content:"> ";color:var(--prompt)}
+  #cta b{color:var(--text)} #cta span{color:var(--prompt);font-weight:600;white-space:nowrap}
+  #cta:hover,#cta:focus-visible{background:rgba(92,211,191,.08);outline:none}
   #result pre{font-family:var(--mono);font-size:14px;line-height:1.45;margin:0;white-space:pre-wrap;text-align:left;max-width:100%;
               background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:10px 12px}
   .styles{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
@@ -145,6 +150,7 @@
       </div>
       <pre id="resGrid"></pre>
       <button class="primary" id="btnShare">Copy result for chat</button>
+      <a id="cta" hidden target="_blank" rel="noopener"></a>
     </div>
   </div>
 </main>
@@ -177,6 +183,7 @@
   </div>
 </dialog>
 
+<!--SCF-EVENT--><script type="application/json" id="scf-event">{"name": "Hacking Managed Services", "url": "https://www.crowdcast.io/c/hacking-managed-services", "date": "2026-11-20", "time": "1 PM ET", "clickup": "868edr1jt"}</script><!--/SCF-EVENT-->
 <script>
 // ---- Weekly answers: one per week (rotates Friday 00:00 Pacific), in this order, then it loops. 5 letters each. ----
 const ANSWERS = [
@@ -460,6 +467,20 @@ function renderStyles(){
     $("styles").appendChild(b);
   });
 }
+// Next Super Cyber Friday promo. tools/set_event.py rewrites the scf-event block every Friday from ClickUp.
+function renderEventCta(){
+  const el = $("cta"); el.hidden = true;
+  let ev; try{ ev = JSON.parse($("scf-event").textContent); }catch(e){ return; }
+  if (!ev || !ev.name || !/^https:\/\/(www\.)?crowdcast\.io\//.test(ev.url||"") || !/^\d{4}-\d{2}-\d{2}$/.test(ev.date||"")) return;
+  // Stop promoting once the show is over (3 PM ET), in case a weekly update is missed.
+  if (Date.now() > Date.parse(ev.date + "T20:00:00Z")) return;
+  const day = new Date(ev.date + "T12:00:00Z").toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric",timeZone:"UTC"});
+  const h = s => String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  el.href = ev.url;
+  el.innerHTML = "If you enjoyed this game, you might also enjoy <b>" + h(ev.name) + "</b>, live on Super Cyber Friday, " +
+    h(day) + (ev.time ? ", " + h(ev.time) : "") + ". <span>Join us on Crowdcast →</span>";
+  el.hidden = false;
+}
 function showResult(animate){
   $("result").hidden = false;
   $("result").className = won ? "won" : "lost";
@@ -472,6 +493,7 @@ function showResult(animate){
   $("optTimeWrap").hidden = elapsed==null;
   $("optTime").checked = shareOpts.time;
   $("resGrid").textContent = shareText(false);
+  renderEventCta();
   if (animate) $("result").scrollIntoView({behavior:"smooth",block:"center"});
 }
 async function copy(text, okMsg){

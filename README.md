@@ -35,3 +35,7 @@ That rewrites the `DICT` line in `index.html` from the macOS dictionary (`/usr/s
 ## Publishing
 
 The live link is a Claude artifact. The artifact copy is `index.html` with the `<!doctype>`, `<html>`, `<head>`/`<body>` wrapper and the charset/viewport tags removed, because the artifact host adds its own. Update the artifact by republishing to the same URL so the share link stays the same.
+
+## Next-event promo
+
+When a game ends, the page promotes the next Super Cyber Friday with a link to its Crowdcast page. The event is stored in the `scf-event` block of `index.html`; update it with `python3 tools/set_event.py --name "Hacking ..." --url https://www.crowdcast.io/c/... --date YYYY-MM-DD` (or `--clear`). A local Claude scheduled task (`scf-games-event-promo`) does this every Friday at 3 PM ET from ClickUp, then republishes the artifact and pushes. The promo hides itself after 3 PM ET on the show day.
